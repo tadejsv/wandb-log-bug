@@ -1,6 +1,6 @@
 # wandb-log-bug
 
-This repository provides a simple example that produces a logging error when using Wandb logger with Hydra multiruns.
+This repository provides a simple example that produces a [logging error](#https://github.com/wandb/client/issues/1314) when using Wandb logger with Hydra multiruns.
 
 To reproduce the error:
 - **Step 0**: Clone this repository, create a new environment, and install the requirements with
