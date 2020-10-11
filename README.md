@@ -8,8 +8,6 @@ To reproduce the error:
     pip install -r requirements.txt
     ```
 
-    You also need to create a Wandb project named `wandb-log-bug`.
-
 - **Step 1**: Run a Hydra multirun with
     ```
     python main.py -m learning_rate=1e-3,1e-4
