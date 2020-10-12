@@ -5,17 +5,44 @@ log = logging.getLogger(__name__)
 import hydra
 from omegaconf import DictConfig
 
+import torch
+from torch.utils.data import DataLoader, Dataset
 from torch.optim import Adam
-from torch.nn import functional as F
+from torch.nn import Module, Linear, functional as F
 
 import wandb
 
-from data import train_dataloader
-from model import MNISTClassifier
+##########################################
+# Data
 
+class FakeData(Dataset):
+    def __getitem__(self, idx):
+        return torch.rand(200, dtype=torch.float), torch.randint(2, (1,))[0]
+
+    def __len__(self):
+        return 5000
+
+def train_dataloader():
+    return DataLoader(FakeData(), batch_size=16, num_workers=os.cpu_count())
+
+#########################################
+# Model
+
+class MNISTClassifier(Module):
+    def __init__(self):
+        super().__init__()
+        self.lin1 = Linear(200, 10)
+
+    def forward(self, x: torch.Tensor):
+        return F.log_softmax(self.lin1(x), dim=1)
+
+#########################################
+# Train
 
 @hydra.main(config_name="config")
 def run_train(cfg: DictConfig) -> None:
+
+    os.environ["WANDB_MODE"] = "dryrun"
 
     train_loader = train_dataloader()
     model = MNISTClassifier()

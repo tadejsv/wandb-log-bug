@@ -15,7 +15,7 @@ To reproduce the error:
     python main.py -m learning_rate=1e-3,1e-4
     ```
 
-- **Step 2**: Wait ~8 seconds (length of one run) and observe the bug. In my case the following error (multiple times) appears:
+- **Step 2**: Wait a few seconds and observe the bug. In my case the following error (multiple times) appears:
     ```python
     --- Logging error ---
     Traceback (most recent call last):
