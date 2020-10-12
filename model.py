@@ -1,14 +1,10 @@
 import torch
 from torch import nn
 from torch.nn import functional as F
-from torch.optim import Adam
-import pytorch_lightning as pl
 
-
-class MNISTClassifier(pl.LightningModule):
-    def __init__(self, lr: float):
+class MNISTClassifier(nn.Module):
+    def __init__(self):
         super().__init__()
-        self.lr = lr
 
         self.conv = nn.Conv2d(1, 8, 3, 1)
         self.dropout = nn.Dropout2d(0.25)
@@ -25,27 +21,3 @@ class MNISTClassifier(pl.LightningModule):
         output = F.log_softmax(x, dim=1)
 
         return output
-        
-    def training_step(self, batch, batch_idx):
-        x, target = batch
-        output = self(x)
-        loss = F.nll_loss(output, target)
-
-        self.log('train_loss', loss)
-
-        return loss
-
-    def validation_step(self, batch, batch_idx):
-        x, target = batch
-        output = self(x)
-        loss = F.nll_loss(output, target)
-
-        self.log('val_loss', loss)
-
-        return loss
-
-    def configure_optimizers(self):
-
-        optimizer = Adam(self.parameters(), lr=self.lr)
-
-        return optimizer
